@@ -1,0 +1,598 @@
+Help on module alpaca_trade_api.rest in alpaca_trade_api:
+
+NAME
+    alpaca_trade_api.rest
+
+CLASSES
+    builtins.Exception(builtins.BaseException)
+        APIError
+        RetryException
+    builtins.object
+        REST
+        TimeFrame
+    enum.Enum(builtins.object)
+        Sort
+        TimeFrameUnit
+    
+    class APIError(builtins.Exception)
+     |  APIError(error, http_error=None)
+     |  
+     |  Represent API related error.
+     |  error.status_code will have http status code.
+     |  
+     |  Method resolution order:
+     |      APIError
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, error, http_error=None)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |  
+     |  code
+     |  
+     |  request
+     |  
+     |  response
+     |  
+     |  status_code
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class REST(builtins.object)
+     |  REST(key_id: str = None, secret_key: str = None, base_url: alpaca_trade_api.common.URL = None, api_version: str = None, oauth=None, raw_data: bool = False)
+     |  
+     |  Methods defined here:
+     |  
+     |  __enter__(self)
+     |  
+     |  __exit__(self, exc_type, exc_val, exc_tb)
+     |  
+     |  __init__(self, key_id: str = None, secret_key: str = None, base_url: alpaca_trade_api.common.URL = None, api_version: str = None, oauth=None, raw_data: bool = False)
+     |      :param raw_data: should we return api response raw or wrap it with
+     |                       Entity objects.
+     |  
+     |  add_to_watchlist(self, watchlist_id: str, symbol: str) -> alpaca_trade_api.entity.Watchlist
+     |      Add an asset to the watchlist
+     |  
+     |  cancel_all_orders(self) -> None
+     |      Cancel all open orders
+     |  
+     |  cancel_order(self, order_id: str) -> None
+     |      Cancel an order
+     |  
+     |  close(self)
+     |  
+     |  close_all_positions(self) -> List[alpaca_trade_api.entity.Position]
+     |      Liquidates all open positions at market price
+     |  
+     |  close_position(self, symbol: str, *, qty: float = None) -> alpaca_trade_api.entity.Position
+     |      Liquidates the position for the given symbol at market price
+     |  
+     |  create_watchlist(self, watchlist_name: str, symbols=None) -> alpaca_trade_api.entity.Watchlist
+     |      Create a new watchlist with an optional initial set of assets
+     |  
+     |  data_get(self, path, data=None, api_version='v1')
+     |  
+     |  delete(self, path, data=None)
+     |  
+     |  delete_from_watchlist(self, watchlist_id: str, symbol: str) -> None
+     |      Remove an asset from the watchlist's asset list
+     |  
+     |  delete_watchlist(self, watchlist_id: str) -> None
+     |      Delete a watchlist identified by the ID permanently
+     |  
+     |  get(self, path, data=None)
+     |  
+     |  get_account(self) -> alpaca_trade_api.entity.Account
+     |      Get the account
+     |  
+     |  get_account_configurations(self) -> alpaca_trade_api.entity.AccountConfigurations
+     |      Get account configs
+     |  
+     |  get_activities(self, activity_types: str = None, until: str = None, after: str = None, direction: str = None, date: str = None, page_size: int = None, page_token: str = None) -> List[alpaca_trade_api.entity.AccountActivity]
+     |      go to alpaca.markets/docs/api-documentation/api-v2/account-activities/
+     |      :param activity_types: go to documnetation to see available types
+     |      :param until: isoformat timestamp
+     |      :param after: isoformat timestamp
+     |      :param direction: asc or sesc. default is desc
+     |      :param date: str. can't be sued with until/after
+     |      :param page_size:
+     |      :param page_token:
+     |      :return:
+     |  
+     |  get_asset(self, symbol: str) -> alpaca_trade_api.entity.Asset
+     |      Get an asset
+     |  
+     |  get_bars(self, symbol: Union[str, List[str]], timeframe: alpaca_trade_api.rest.TimeFrame, start: Optional[str] = None, end: Optional[str] = None, adjustment: str = 'raw', limit: int = None) -> alpaca_trade_api.entity_v2.BarsV2
+     |  
+     |  get_bars_iter(self, symbol: Union[str, List[str]], timeframe: alpaca_trade_api.rest.TimeFrame, start: Optional[str] = None, end: Optional[str] = None, adjustment: str = 'raw', limit: int = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Bar, dict]]
+     |  
+     |  get_calendar(self, start: str = None, end: str = None) -> List[alpaca_trade_api.entity.Calendar]
+     |      :param start: isoformat date string eg '2006-01-02T15:04:05Z' or
+     |             '2006-01-02'
+     |      :param end: isoformat date string
+     |  
+     |  get_clock(self) -> alpaca_trade_api.entity.Clock
+     |  
+     |  get_crypto_bars(self, symbol: Union[str, List[str]], timeframe: alpaca_trade_api.rest.TimeFrame, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None) -> alpaca_trade_api.entity_v2.BarsV2
+     |  
+     |  get_crypto_bars_iter(self, symbol: Union[str, List[str]], timeframe: alpaca_trade_api.rest.TimeFrame, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Bar, dict]]
+     |  
+     |  get_crypto_quotes(self, symbol: str, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None) -> alpaca_trade_api.entity_v2.QuotesV2
+     |  
+     |  get_crypto_quotes_iter(self, symbol: str, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Quote, dict]]
+     |  
+     |  get_crypto_snapshot(self, symbol: str, exchange: str) -> alpaca_trade_api.entity_v2.SnapshotV2
+     |  
+     |  get_crypto_trades(self, symbol: str, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None) -> alpaca_trade_api.entity_v2.TradesV2
+     |  
+     |  get_crypto_trades_iter(self, symbol: str, start: Optional[str] = None, end: Optional[str] = None, limit: int = None, exchanges: Optional[List[str]] = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Trade, dict]]
+     |  
+     |  get_latest_bar(self, symbol: str) -> alpaca_trade_api.entity_v2.BarV2
+     |  
+     |  get_latest_bars(self, symbols: List[str]) -> alpaca_trade_api.entity_v2.LatestBarsV2
+     |  
+     |  get_latest_crypto_bar(self, symbol: str, exchange: str) -> alpaca_trade_api.entity_v2.BarV2
+     |  
+     |  get_latest_crypto_bars(self, symbols: List[str], exchange: str) -> alpaca_trade_api.entity_v2.LatestBarsV2
+     |  
+     |  get_latest_crypto_quote(self, symbol: str, exchange: str) -> alpaca_trade_api.entity_v2.QuoteV2
+     |  
+     |  get_latest_crypto_quotes(self, symbols: List[str], exchange: str) -> alpaca_trade_api.entity_v2.LatestQuotesV2
+     |  
+     |  get_latest_crypto_snapshots(self, symbols: List[str], exchange: str) -> alpaca_trade_api.entity_v2.SnapshotsV2
+     |  
+     |  get_latest_crypto_trade(self, symbol: str, exchange: str) -> alpaca_trade_api.entity_v2.TradeV2
+     |  
+     |  get_latest_crypto_trades(self, symbols: List[str], exchange: str) -> alpaca_trade_api.entity_v2.LatestTradesV2
+     |  
+     |  get_latest_crypto_xbbo(self, symbol: str, exchanges: Optional[List[str]] = None) -> alpaca_trade_api.entity_v2.QuoteV2
+     |  
+     |  get_latest_crypto_xbbos(self, symbols: List[str], exchanges: Optional[List[str]] = None) -> alpaca_trade_api.entity_v2.QuoteV2
+     |  
+     |  get_latest_quote(self, symbol: str) -> alpaca_trade_api.entity_v2.QuoteV2
+     |  
+     |  get_latest_quotes(self, symbols: List[str]) -> alpaca_trade_api.entity_v2.LatestQuotesV2
+     |  
+     |  get_latest_trade(self, symbol: str) -> alpaca_trade_api.entity_v2.TradeV2
+     |  
+     |  get_latest_trades(self, symbols: List[str]) -> alpaca_trade_api.entity_v2.LatestTradesV2
+     |  
+     |  get_news(self, symbol: Union[str, List[str], NoneType] = None, start: Optional[str] = None, end: Optional[str] = None, limit: int = 10, sort: alpaca_trade_api.rest.Sort = <Sort.Desc: 'desc'>, include_content: bool = False, exclude_contentless: bool = False) -> alpaca_trade_api.entity_v2.NewsListV2
+     |  
+     |  get_news_iter(self, symbol: Union[str, List[str], NoneType] = None, start: Optional[str] = None, end: Optional[str] = None, limit: int = 10, sort: alpaca_trade_api.rest.Sort = <Sort.Desc: 'desc'>, include_content: bool = False, exclude_contentless: bool = False, raw=False) -> Iterator[Union[alpaca_trade_api.entity_v2.NewsV2, dict]]
+     |  
+     |  get_order(self, order_id: str, nested: bool = None) -> alpaca_trade_api.entity.Order
+     |      Get an order
+     |  
+     |  get_order_by_client_order_id(self, client_order_id: str) -> alpaca_trade_api.entity.Order
+     |      Get an order by client order id
+     |  
+     |  get_portfolio_history(self, date_start: str = None, date_end: str = None, period: str = None, timeframe=None, extended_hours: bool = None) -> alpaca_trade_api.entity.PortfolioHistory
+     |      alpaca.markets/docs/api-documentation/api-v2/portfolio-history/
+     |      :param date_start: YYYY-MM-DD
+     |      :param date_end: YYYY-MM-DD
+     |      :param period: The duration of the data in <number> + <unit>
+     |             such as 1D, where <unit> can be D for day, W for week,
+     |             M for month and A for year. Defaults to 1M.
+     |      :param timeframe: The resolution of time window. 1Min, 5Min, 15Min,
+     |             1H, or 1D
+     |      :param extended_hours: bool. If true, include extended hours in the
+     |             result.
+     |  
+     |  get_position(self, symbol: str) -> alpaca_trade_api.entity.Position
+     |      Get an open position
+     |  
+     |  get_quotes(self, symbol: Union[str, List[str]], start: Optional[str] = None, end: Optional[str] = None, limit: int = None) -> alpaca_trade_api.entity_v2.QuotesV2
+     |  
+     |  get_quotes_iter(self, symbol: Union[str, List[str]], start: Optional[str] = None, end: Optional[str] = None, limit: int = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Quote, dict]]
+     |  
+     |  get_snapshot(self, symbol: str) -> alpaca_trade_api.entity_v2.SnapshotV2
+     |  
+     |  get_snapshots(self, symbols: List[str]) -> alpaca_trade_api.entity_v2.SnapshotsV2
+     |  
+     |  get_trades(self, symbol: Union[str, List[str]], start: Optional[str] = None, end: Optional[str] = None, limit: int = None) -> alpaca_trade_api.entity_v2.TradesV2
+     |  
+     |  get_trades_iter(self, symbol: Union[str, List[str]], start: Optional[str] = None, end: Optional[str] = None, limit: int = None, raw=False) -> Iterator[Union[alpaca_trade_api.entity.Trade, dict]]
+     |  
+     |  get_watchlist(self, watchlist_id: str) -> alpaca_trade_api.entity.Watchlist
+     |      Get a watchlist identified by the ID
+     |  
+     |  get_watchlist_by_name(self, watchlist_name: str) -> alpaca_trade_api.entity.Watchlist
+     |      Get a watchlist identified by its name
+     |  
+     |  get_watchlists(self) -> List[alpaca_trade_api.entity.Watchlist]
+     |      Get the list of watchlists registered under the account
+     |  
+     |  list_assets(self, status=None, asset_class=None) -> List[alpaca_trade_api.entity.Asset]
+     |      Get a list of assets
+     |  
+     |  list_orders(self, status: str = None, limit: int = None, after: str = None, until: str = None, direction: str = None, params=None, nested: bool = None, symbols: List[str] = None, side: str = None) -> List[alpaca_trade_api.entity.Order]
+     |      Get a list of orders
+     |      https://docs.alpaca.markets/web-api/orders/#get-a-list-of-orders
+     |      
+     |      :param status: open, closed or all. Defaults to open.
+     |      :param limit: Defaults to 50 and max is 500
+     |      :param after: timestamp
+     |      :param until: timestamp
+     |      :param direction: asc or desc.
+     |      :param params: refer to documentation
+     |      :param nested: should the data be nested like json
+     |      :param symbols: list of str (symbols)
+     |      :param side: Lets you filter to only 'buy' or 'sell' orders
+     |  
+     |  list_positions(self) -> List[alpaca_trade_api.entity.Position]
+     |      Get a list of open positions
+     |  
+     |  patch(self, path, data=None)
+     |  
+     |  post(self, path, data=None)
+     |  
+     |  put(self, path, data=None)
+     |  
+     |  replace_order(self, order_id: str, qty: str = None, limit_price: str = None, stop_price: str = None, trail: str = None, time_in_force: str = None, client_order_id: str = None) -> alpaca_trade_api.entity.Order
+     |      :param order_id:
+     |      :param qty: str of int
+     |      :param limit_price: str of float
+     |      :param stop_price: str of float
+     |      :param trail: str of float, represents trailing_price or
+     |             trailing_percent. determined by the original order.
+     |      :param time_in_force: day, gtc, opg, cls, ioc, fok
+     |      
+     |      note: you cannot replace type of order. so, it was trailing_stop(e.g)
+     |            it will remain trailing_stop.
+     |  
+     |  response_wrapper(self, obj, entity: alpaca_trade_api.entity.Entity)
+     |      To allow the user to get raw response from the api, we wrap all
+     |      functions with this method, checking if the user has set raw_data
+     |      bool. if they didn't, we wrap the response with an Entity object.
+     |      :param obj: response from server
+     |      :param entity: derivative object of Entity
+     |      :return:
+     |  
+     |  submit_order(self, symbol: str, qty: float = None, side: str = 'buy', type: str = 'market', time_in_force: str = 'day', limit_price: str = None, stop_price: str = None, client_order_id: str = None, extended_hours: bool = None, order_class: str = None, take_profit: dict = None, stop_loss: dict = None, trail_price: str = None, trail_percent: str = None, notional: float = None)
+     |      :param symbol: symbol or asset ID
+     |      :param qty: float. Mutually exclusive with "notional".
+     |      :param side: buy or sell
+     |      :param type: market, limit, stop, stop_limit or trailing_stop
+     |      :param time_in_force: day, gtc, opg, cls, ioc, fok
+     |      :param limit_price: str of float
+     |      :param stop_price: str of float
+     |      :param client_order_id:
+     |      :param extended_hours: bool. If true, order will be eligible to execute
+     |             in premarket/afterhours.
+     |      :param order_class: simple, bracket, oco or oto
+     |      :param take_profit: dict with field "limit_price" e.g
+     |             {"limit_price": "298.95"}
+     |      :param stop_loss: dict with fields "stop_price" and "limit_price" e.g
+     |             {"stop_price": "297.95", "limit_price": "298.95"}
+     |      :param trail_price: str of float
+     |      :param trail_percent: str of float
+     |      :param notional: float. Mutually exclusive with "qty".
+     |  
+     |  update_account_configurations(self, no_shorting: bool = None, dtbp_check: str = None, trade_confirm_email: str = None, suspend_trade: bool = None) -> alpaca_trade_api.entity.AccountConfigurations
+     |      alpaca.markets/docs/api-documentation/api-v2/account-configuration/
+     |      Update account configs
+     |      :param dtbp_check: both, entry, or exit
+     |      :param trade_confirm_email: all or none
+     |  
+     |  update_watchlist(self, watchlist_id: str, name: str = None, symbols=None) -> alpaca_trade_api.entity.Watchlist
+     |      Update a watchlist's name and/or asset list
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+    
+    class RetryException(builtins.Exception)
+     |  Method resolution order:
+     |      RetryException
+     |      builtins.Exception
+     |      builtins.BaseException
+     |      builtins.object
+     |  
+     |  Data descriptors defined here:
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.Exception:
+     |  
+     |  __init__(self, /, *args, **kwargs)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods inherited from builtins.Exception:
+     |  
+     |  __new__(*args, **kwargs) from builtins.type
+     |      Create and return a new object.  See help(type) for accurate signature.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Methods inherited from builtins.BaseException:
+     |  
+     |  __delattr__(self, name, /)
+     |      Implement delattr(self, name).
+     |  
+     |  __getattribute__(self, name, /)
+     |      Return getattr(self, name).
+     |  
+     |  __reduce__(...)
+     |      Helper for pickle.
+     |  
+     |  __repr__(self, /)
+     |      Return repr(self).
+     |  
+     |  __setattr__(self, name, value, /)
+     |      Implement setattr(self, name, value).
+     |  
+     |  __setstate__(...)
+     |  
+     |  __str__(self, /)
+     |      Return str(self).
+     |  
+     |  with_traceback(...)
+     |      Exception.with_traceback(tb) --
+     |      set self.__traceback__ to tb and return self.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from builtins.BaseException:
+     |  
+     |  __cause__
+     |      exception cause
+     |  
+     |  __context__
+     |      exception context
+     |  
+     |  __dict__
+     |  
+     |  __suppress_context__
+     |  
+     |  __traceback__
+     |  
+     |  args
+    
+    class Sort(enum.Enum)
+     |  Sort(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  An enumeration.
+     |  
+     |  Method resolution order:
+     |      Sort
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  Asc = <Sort.Asc: 'asc'>
+     |  
+     |  Desc = <Sort.Desc: 'desc'>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+    
+    class TimeFrame(builtins.object)
+     |  TimeFrame(amount: int, unit: alpaca_trade_api.rest.TimeFrameUnit)
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, amount: int, unit: alpaca_trade_api.rest.TimeFrameUnit)
+     |      Initialize self.  See help(type(self)) for accurate signature.
+     |  
+     |  __str__(self)
+     |      Return str(self).
+     |  
+     |  ----------------------------------------------------------------------
+     |  Static methods defined here:
+     |  
+     |  validate(amount: int, unit: alpaca_trade_api.rest.TimeFrameUnit)
+     |  
+     |  ----------------------------------------------------------------------
+     |  Readonly properties defined here:
+     |  
+     |  value
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors defined here:
+     |  
+     |  __dict__
+     |      dictionary for instance variables (if defined)
+     |  
+     |  __weakref__
+     |      list of weak references to the object (if defined)
+     |  
+     |  amount
+     |  
+     |  unit
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data and other attributes defined here:
+     |  
+     |  Day = <alpaca_trade_api.rest.TimeFrame object>
+     |  
+     |  Hour = <alpaca_trade_api.rest.TimeFrame object>
+     |  
+     |  Minute = <alpaca_trade_api.rest.TimeFrame object>
+     |  
+     |  Month = <alpaca_trade_api.rest.TimeFrame object>
+     |  
+     |  Week = <alpaca_trade_api.rest.TimeFrame object>
+    
+    class TimeFrameUnit(enum.Enum)
+     |  TimeFrameUnit(value, names=None, *, module=None, qualname=None, type=None, start=1)
+     |  
+     |  An enumeration.
+     |  
+     |  Method resolution order:
+     |      TimeFrameUnit
+     |      enum.Enum
+     |      builtins.object
+     |  
+     |  Data and other attributes defined here:
+     |  
+     |  Day = <TimeFrameUnit.Day: 'Day'>
+     |  
+     |  Hour = <TimeFrameUnit.Hour: 'Hour'>
+     |  
+     |  Minute = <TimeFrameUnit.Minute: 'Min'>
+     |  
+     |  Month = <TimeFrameUnit.Month: 'Month'>
+     |  
+     |  Week = <TimeFrameUnit.Week: 'Week'>
+     |  
+     |  ----------------------------------------------------------------------
+     |  Data descriptors inherited from enum.Enum:
+     |  
+     |  name
+     |      The name of the Enum member.
+     |  
+     |  value
+     |      The value of the Enum member.
+     |  
+     |  ----------------------------------------------------------------------
+     |  Readonly properties inherited from enum.EnumMeta:
+     |  
+     |  __members__
+     |      Returns a mapping of member name->value.
+     |      
+     |      This mapping lists all enum members, including aliases. Note that this
+     |      is a read-only view of the internal mapping.
+
+DATA
+    AccountActivities = typing.List[alpaca_trade_api.entity.AccountActivit...
+    Assets = typing.List[alpaca_trade_api.entity.Asset]
+    BarIterator = typing.Iterator[typing.Union[alpaca_trade_api.entity.Bar...
+    Calendars = typing.List[alpaca_trade_api.entity.Calendar]
+    DATA_V2_MAX_LIMIT = 10000
+    Iterator = typing.Iterator
+        A generic version of collections.abc.Iterator.
+    
+    List = typing.List
+        A generic version of list.
+    
+    NEWS_MAX_LIMIT = 50
+    NewsIterator = typing.Iterator[typing.Union[alpaca_trade_api.entity_v2...
+    Optional = typing.Optional
+        Optional type.
+        
+        Optional[X] is equivalent to Union[X, None].
+    
+    Orders = typing.List[alpaca_trade_api.entity.Order]
+    Positions = typing.List[alpaca_trade_api.entity.Position]
+    QuoteIterator = typing.Iterator[typing.Union[alpaca_trade_api.entity.Q...
+    TradeIterator = typing.Iterator[typing.Union[alpaca_trade_api.entity.T...
+    Union = typing.Union
+        Union type; Union[X, Y] means either X or Y.
+        
+        To define a union, use e.g. Union[int, str].  Details:
+        - The arguments must be types and there must be at least one.
+        - None as an argument is a special case and is replaced by
+          type(None).
+        - Unions of unions are flattened, e.g.::
+        
+            Union[Union[int, str], float] == Union[int, str, float]
+        
+        - Unions of a single argument vanish, e.g.::
+        
+            Union[int] == int  # The constructor actually returns int
+        
+        - Redundant arguments are skipped, e.g.::
+        
+            Union[int, str, int] == Union[int, str]
+        
+        - When comparing unions, the argument order is ignored, e.g.::
+        
+            Union[int, str] == Union[str, int]
+        
+        - You cannot subclass or instantiate a union.
+        - You can use Optional[X] as a shorthand for Union[X, None].
+    
+    Watchlists = typing.List[alpaca_trade_api.entity.Watchlist]
+    logger = <Logger alpaca_trade_api.rest (WARNING)>
+
+VERSION
+    2.1.0
+
+FILE
+    c:\users\ikumwindows\appdata\roaming\python\python39\site-packages\alpaca_trade_api\rest.py
+
+
